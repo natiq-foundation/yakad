@@ -3,6 +3,7 @@
 }
 .main {
     margin-top: -8rem;
+    align-items: center;
 }
 .card {
     max-width: 35rem;

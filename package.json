@@ -12,12 +12,12 @@
         "typecheck": "npm run typecheck --workspaces",
         "test": "npm run test --workspaces",
         "prepublish:check": "npm run lint && npm run build && npm run typecheck && npm run test",
-        "publish:eslint-plugin-guard": "cd packages/eslint-plugin-guard && npm publish && cd ../..",
-        "publish:lib": "cd packages/lib && npm publish && cd ../..",
-        "publish:sync": "cd packages/sync && npm publish && cd ../..",
-        "publish:symbols": "cd packages/symbols && npm publish && cd ../..",
-        "publish:ui": "cd packages/ui && npm publish && cd ../..",
-        "publish:x": "cd packages/x && npm publish && cd ../.."
+        "publish:eslint-plugin-guard": "cd packages/eslint-plugin-guard && npm version patch && npm publish && cd ../..",
+        "publish:lib": "cd packages/lib && npm version patch && npm publish && cd ../..",
+        "publish:sync": "cd packages/sync && npm version patch && npm publish && cd ../..",
+        "publish:symbols": "cd packages/symbols && npm version patch && npm publish && cd ../..",
+        "publish:ui": "cd packages/ui && npm version patch && npm publish && cd ../..",
+        "publish:x": "cd packages/x && npm version patch && npm publish && cd ../.."
     },
     "devDependencies": {
         "@types/jest": "^30.0.0",
