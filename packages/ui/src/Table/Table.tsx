@@ -11,7 +11,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     ref
 ) {
     const joinedClassNames = classNames(
-        { fullWidth: true },
+        { fullWidthOnParentDemand: true },
         styles.table,
         className
     );

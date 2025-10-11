@@ -28,7 +28,12 @@ export const InputField = forwardRef<HTMLInputElement, InputFieldProps>(
         );
 
         return (
-            <div className={classNames({ fullWidth: true }, styles.div)}>
+            <div
+                className={classNames(
+                    { fullWidthOnParentDemand: true },
+                    styles.div
+                )}
+            >
                 <input
                     ref={ref}
                     {...restProps}

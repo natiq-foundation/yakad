@@ -13,7 +13,7 @@ export const List = forwardRef<HTMLUListElement, ListProps>(function List(
     ref
 ) {
     const joinedClassNames = classNames(
-        { fullWidth: true },
+        { fullWidthOnParentDemand: true },
         styles.list,
         styles[direction],
         { [styles.collapsed]: collapsed },
