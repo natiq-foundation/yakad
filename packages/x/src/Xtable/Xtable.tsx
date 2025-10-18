@@ -1,17 +1,17 @@
 "use client";
 
-import { forwardRef } from "react";
 import { Table, TableProps } from "@yakad/ui";
 
 export interface XTableProps extends TableProps {}
 
-export const XTable = forwardRef<HTMLTableElement, XTableProps>(function XTable(
-    { children, ...restProps },
-    ref
-) {
+export function XTable({
+    children,
+    ref,
+    ...restProps
+}: XTableProps & { ref?: React.Ref<HTMLTableElement> }) {
     return (
         <Table ref={ref} {...restProps}>
             {children}
         </Table>
     );
-});
+}

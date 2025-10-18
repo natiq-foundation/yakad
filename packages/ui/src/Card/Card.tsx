@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import { Stack, StackProps } from "..";
 import styles from "./Card.module.css";
@@ -7,12 +6,18 @@ export interface CardProps extends StackProps {
     blur?: boolean;
     level?: "transparent" | "low" | "mid" | "high";
     hoverEffect?: boolean;
+    ref?: React.Ref<HTMLDivElement>;
 }
 
-export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
-    { blur, level, hoverEffect, className, children, ...restProps },
-    ref
-) {
+export function Card({
+    blur,
+    level,
+    hoverEffect,
+    className,
+    children,
+    ref,
+    ...restProps
+}: CardProps) {
     const joinedClassNames = classNames(
         styles.card,
         { [styles.blur]: blur },
@@ -30,4 +35,4 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
             {children}
         </Stack>
     );
-});
+}

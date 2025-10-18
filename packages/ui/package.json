@@ -1,6 +1,6 @@
 {
     "name": "@yakad/ui",
-    "version": "1.3.160",
+    "version": "1.3.162",
     "private": false,
     "author": "Natiq",
     "description": "UI components for NextJS/React",
@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "@yakad/lib": "1.0.22",
-        "@yakad/symbols": "1.0.28",
+        "@yakad/symbols": "1.0.29",
         "classnames": "2.5.1"
     },
     "peerDependencies": {

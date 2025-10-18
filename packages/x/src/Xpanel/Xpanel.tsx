@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     AppBar,
     Button,
@@ -20,16 +20,14 @@ export interface XpanelProps extends ScreenProps {
     children?: React.ReactNode;
 }
 
-export const Xpanel = forwardRef<HTMLDivElement, XpanelProps>(function Xpanel(
-    {
-        name = "Yakad Panel",
-        appbarChildren,
-        navigationChildren,
-        children,
-        ...restProps
-    },
-    ref
-) {
+export function Xpanel({
+    name = "Yakad Panel",
+    appbarChildren,
+    navigationChildren,
+    children,
+    ref,
+    ...restProps
+}: XpanelProps & { ref?: React.Ref<HTMLDivElement> }) {
     const [navOpen, setNavOpen] = useState<boolean>(false);
     const toggleNavOpen = () => setNavOpen((prev) => !prev);
 
@@ -69,4 +67,4 @@ export const Xpanel = forwardRef<HTMLDivElement, XpanelProps>(function Xpanel(
             <Navigation open={navOpen}>{navigationChildren}</Navigation>
         </Screen>
     );
-});
+}

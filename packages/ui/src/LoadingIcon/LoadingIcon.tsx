@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import styles from "./LoadingIcon.module.css";
 
@@ -7,11 +6,11 @@ export interface LoadingIconProps extends React.HTMLAttributes<HTMLDivElement> {
     variant?: "scaleOut" | "dots" | "spinner";
 }
 
-export const LoadingIcon = forwardRef<HTMLDivElement, LoadingIconProps>(
-    function LoadingIcon(
-        { size = "medium", variant = "dots", className, ...restProps },
-        ref
-    ) {
+export function LoadingIcon({
+         size = "medium", variant = "dots", className,
+        ref,
+        ...restProps
+    }: LoadingIconProps & { ref?: React.Ref<HTMLDivElement> }) {
         const joinedClassNames = classNames(
             styles.loadingIcon,
             styles[size],
@@ -25,4 +24,3 @@ export const LoadingIcon = forwardRef<HTMLDivElement, LoadingIconProps>(
             </div>
         );
     }
-);

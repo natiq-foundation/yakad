@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect } from "react";
+import { useEffect } from "react";
 import classNames from "classnames";
 import "./globals.css";
 import styles from "./Theme.module.css";
@@ -14,20 +14,19 @@ export interface ThemeProps extends React.HTMLAttributes<HTMLDivElement> {
     color?: ThemeColor;
     zoom?: number; //Percentage zoom level (e.g., 100 for 100%)
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLDivElement>;
 }
 
-export const Theme = forwardRef<HTMLDivElement, ThemeProps>(function Theme(
-    {
-        align,
-        darkStyle = "system",
-        color = "blue",
-        zoom = 100,
-        className,
-        children,
-        ...restProps
-    },
-    ref
-) {
+export function Theme({
+    align,
+    darkStyle = "system",
+    color = "blue",
+    zoom = 100,
+    className,
+    children,
+    ref,
+    ...restProps
+}: ThemeProps) {
     const zoomPercentage = zoom ? (zoom / 100) * 62.5 : 62.5;
 
     useEffect(() => {
@@ -53,4 +52,4 @@ export const Theme = forwardRef<HTMLDivElement, ThemeProps>(function Theme(
             {children}
         </div>
     );
-});
+}

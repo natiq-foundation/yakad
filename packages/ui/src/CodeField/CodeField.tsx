@@ -1,6 +1,5 @@
 "use client";
 
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./CodeField.module.css";
@@ -11,6 +10,7 @@ export interface CodeFieldsProps
     length?: number;
     onFilled?: () => void;
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLInputElement>;
 }
 
 function isInputFilled(
@@ -37,44 +37,42 @@ function removeUnNumberChars(inputElement: HTMLInputElement): void {
     inputElement.value = inputElement.value.replace(/[^0-9]+/, "");
 }
 
-export const CodeField = forwardRef<HTMLInputElement, CodeFieldsProps>(
-    function CodeField(
-        {
-            length = 6,
-            onFilled,
-            autoComplete,
-            pattern,
-            onInput,
-            className,
-            style,
-            ...restProps
-        },
-        ref
-    ) {
-        const joinedClassNames = classNames(
-            { [boxingStyles.fullWidthOnParentDemand]: true },
-            styles.input,
-            className
-        );
+export function CodeField({
+    length = 6,
+    onFilled,
+    autoComplete,
+    pattern,
+    onInput,
+    className,
+    style,
+    ref,
+    ...restProps
+}: CodeFieldsProps) {
+    const joinedClassNames = classNames(
+        { [boxingStyles.fullWidthOnParentDemand]: true },
+        styles.input,
+        className
+    );
 
-        const joinedStyles = { ...style, width: `calc(1.5ch * ${length})` };
+    const joinedStyles = { ...style, width: `calc(1.5ch * ${length})` };
 
-        return (
-            <input
-                ref={ref}
-                {...restProps}
-                className={joinedClassNames}
-                style={joinedStyles}
-                type="number"
-                minLength={length}
-                maxLength={length}
-                autoComplete={autoComplete || "off"}
-                pattern={pattern || "[0-9]"}
-                onInput={(event) => {
-                    isInputFilled(event, length) && onFilled;
-                    onInput;
-                }}
-            />
-        );
-    }
-);
+    return (
+        <input
+            ref={ref}
+            {...restProps}
+            className={joinedClassNames}
+            style={joinedStyles}
+            type="number"
+            minLength={length}
+            maxLength={length}
+            autoComplete={autoComplete || "off"}
+            pattern={pattern || "[0-9]"}
+            onInput={(event) => {
+                if (isInputFilled(event, length)) {
+                    onFilled?.();
+                }
+                onInput?.(event);
+            }}
+        />
+    );
+}

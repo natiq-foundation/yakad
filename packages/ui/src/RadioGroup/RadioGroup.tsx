@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, forwardRef, Children } from "react";
+import { useState, Children } from "react";
 import { RadioButton, RadioButtonProps } from "..";
 
 type RadioButtonElement = React.ReactElement<RadioButtonProps>;
@@ -12,11 +12,14 @@ export interface RadioGroupProps
     children?: RadioButtonElement | RadioButtonElement[];
 }
 
-export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-    function RadioGroup(
-        { name, defaultValue, className, children, ...restProps },
-        ref
-    ) {
+export function RadioGroup({
+    name,
+    defaultValue,
+    className,
+    children,
+    ref,
+    ...restProps
+}: RadioGroupProps & { ref?: React.Ref<HTMLDivElement> }) {
         const [selectedValue, setSelectedValue] = useState<
             string | number | null
         >(defaultValue || null);
@@ -36,10 +39,9 @@ export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
                 />
             ));
 
-        return (
-            <div ref={ref} {...restProps} className={className}>
-                {renderChildrens()}
-            </div>
-        );
-    }
-);
+    return (
+        <div ref={ref} {...restProps} className={className}>
+            {renderChildrens()}
+        </div>
+    );
+}

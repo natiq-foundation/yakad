@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import {
     GridContainer,
@@ -12,48 +11,51 @@ import styles from "./XgetStart.module.css";
 export interface XgetStartProps extends ContainerProps {
     logo?: React.ReactNode;
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLDivElement>;
 }
 
-export const XgetStart = forwardRef<HTMLDivElement, XgetStartProps>(
-    function XgetStart(
-        { logo, size = "lg", className, children, ...restProps },
-        ref
-    ) {
-        const joinedClassNames = classNames(styles.xgetstart, className);
+export function XgetStart({
+    logo,
+    size = "lg",
+    className,
+    children,
+    ref,
+    ...restProps
+}: XgetStartProps) {
+    const joinedClassNames = classNames(styles.xgetstart, className);
 
-        return (
-            <Container
-                ref={ref}
-                size={size}
-                className={joinedClassNames}
-                {...restProps}
-            >
-                <GridContainer gap={2}>
-                    <GridItem md={12} xl={5}>
-                        <SvgIcon
-                            style={{
-                                width: "70vw",
-                                maxWidth: "40rem",
-                                margin: "auto",
-                            }}
-                        >
-                            {logo}
-                        </SvgIcon>
-                    </GridItem>
-                    <GridItem
-                        md={12}
-                        xl={7}
+    return (
+        <Container
+            ref={ref}
+            size={size}
+            className={joinedClassNames}
+            {...restProps}
+        >
+            <GridContainer gap={2}>
+                <GridItem md={12} xl={5}>
+                    <SvgIcon
                         style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "center",
-                            alignItems: "center",
+                            width: "70vw",
+                            maxWidth: "40rem",
+                            margin: "auto",
                         }}
                     >
-                        {children}
-                    </GridItem>
-                </GridContainer>
-            </Container>
-        );
-    }
-);
+                        {logo}
+                    </SvgIcon>
+                </GridItem>
+                <GridItem
+                    md={12}
+                    xl={7}
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    {children}
+                </GridItem>
+            </GridContainer>
+        </Container>
+    );
+}

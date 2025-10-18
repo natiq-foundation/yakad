@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./ListItem.module.css";
@@ -7,8 +6,11 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLLIElement> {
     align?: "start" | "space" | "center" | "end";
 }
 
-export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
-    function ListItem({ align, className, children, ...restProps }, ref) {
+export function ListItem({
+         align, className, children, 
+        ref,
+        ...restProps
+    }: ListItemProps & { ref?: React.Ref<HTMLLIElement> }) {
         return (
             <li
                 ref={ref}
@@ -25,4 +27,3 @@ export const ListItem = forwardRef<HTMLLIElement, ListItemProps>(
             </li>
         );
     }
-);

@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import styles from "./Hr.module.css";
 
@@ -8,10 +7,11 @@ export interface HrProps extends React.HTMLAttributes<HTMLHRElement> {
     marginx?: number;
 }
 
-export const Hr = forwardRef<HTMLHRElement, HrProps>(function Hr(
-    { variant, height, marginx, className, style, ...restProps },
-    ref
-) {
+export function Hr({
+         variant, height, marginx, className, style,
+        ref,
+        ...restProps
+    }: HrProps & { ref?: React.Ref<HTMLHRElement> }) {
     const joinedClassNames = classNames(
         styles.hr,
         variant && styles[variant],
@@ -33,4 +33,4 @@ export const Hr = forwardRef<HTMLHRElement, HrProps>(function Hr(
             style={joinedStyles}
         />
     );
-});
+}

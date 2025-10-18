@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./Select.module.css";
@@ -12,18 +11,16 @@ export interface SelectProps
     children?: React.ReactNode;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-    function Select(
-        {
+export function Select({
+        
             variant = "outlined",
             boxsize = "normal",
             placeholder,
             className,
             children,
-            ...restProps
-        },
-        ref
-    ) {
+        ref,
+        ...restProps
+    }: SelectProps & { ref?: React.Ref<HTMLSelectElement> }) {
         const joinedClassNames = classNames(
             styles.select,
             inputStyles.input,
@@ -49,4 +46,3 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
             </div>
         );
     }
-);

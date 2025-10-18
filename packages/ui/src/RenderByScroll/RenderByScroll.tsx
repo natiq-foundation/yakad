@@ -1,6 +1,6 @@
 "use client";
 
-import React, { forwardRef, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ActiveOnVisible, Stack, StackProps, useOnVisibilityChange } from "..";
 
 export interface RenderByScrollProps extends StackProps {
@@ -10,22 +10,20 @@ export interface RenderByScrollProps extends StackProps {
     stopNewRenders?: boolean;
     newChildRendered?: (index: number) => void;
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLDivElement>
 }
 
-export const RenderByScroll = forwardRef<HTMLDivElement, RenderByScrollProps>(
-    function RenderByScroll(
-        {
-            scrollMarginTop = 8, // Sticky Header Height
+export function RenderByScroll({
+        scrollMarginTop = 8, // Sticky Header Height
             extraRender = 5,
             jumpToIndex = 0,
             stopNewRenders,
             newChildRendered,
             style,
             children,
-            ...restProps
-        },
-        ref
-    ) {
+        ref,
+        ...restProps
+    }: RenderByScrollProps) {
         const childrenArray = React.Children.toArray(children);
 
         // Scroll Zone
@@ -147,4 +145,3 @@ export const RenderByScroll = forwardRef<HTMLDivElement, RenderByScrollProps>(
             </Stack>
         );
     }
-);

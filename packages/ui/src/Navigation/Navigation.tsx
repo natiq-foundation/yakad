@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./Navigation.module.css";
@@ -10,18 +9,16 @@ export interface NavigationProps extends React.HTMLAttributes<HTMLElement> {
     children?: React.ReactNode;
 }
 
-export const Navigation = forwardRef<HTMLDivElement, NavigationProps>(
-    function Navigation(
-        {
+export function Navigation({
+        
             align,
             anchor = "auto",
             open = false,
             className,
             children,
-            ...restProps
-        },
-        ref
-    ) {
+        ref,
+        ...restProps
+    }: NavigationProps & { ref?: React.Ref<HTMLDivElement> }) {
         const joinedClassNames = classNames(
             boxingStyles.flexColumnBox,
             { [boxingStyles[align as string]]: align },
@@ -40,4 +37,3 @@ export const Navigation = forwardRef<HTMLDivElement, NavigationProps>(
             </nav>
         );
     }
-);

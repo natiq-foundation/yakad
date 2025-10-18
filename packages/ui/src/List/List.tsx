@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./List.module.css";
@@ -9,10 +8,11 @@ export interface ListProps extends React.HTMLAttributes<HTMLUListElement> {
     children?: React.ReactNode;
 }
 
-export const List = forwardRef<HTMLUListElement, ListProps>(function List(
-    { direction = "row", collapsed, className, children, ...restProps },
-    ref
-) {
+export function List({
+         direction = "row", collapsed, className, children,
+        ref,
+        ...restProps
+    }: ListProps & { ref?: React.Ref<HTMLUListElement> }) {
     const joinedClassNames = classNames(
         { [boxingStyles.fullWidthOnParentDemand]: true },
         styles.list,
@@ -26,4 +26,4 @@ export const List = forwardRef<HTMLUListElement, ListProps>(function List(
             {children}
         </ul>
     );
-});
+}

@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import styles from "./GridContainer.module.css";
 
@@ -9,11 +8,11 @@ export interface GridContainerProps
     children?: React.ReactNode;
 }
 
-export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
-    function GridContainer(
-        { gap = 1.5, columns = 12, className, style, children, ...restProps },
-        ref
-    ) {
+export function GridContainer({
+         gap = 1.5, columns = 12, className, style, children,
+        ref,
+        ...restProps
+    }: GridContainerProps & { ref?: React.Ref<HTMLDivElement> }) {
         const joinedClassNames = classNames(
             styles.gridcontainer,
             styles[`gridColumns${columns}`],
@@ -36,4 +35,3 @@ export const GridContainer = forwardRef<HTMLDivElement, GridContainerProps>(
             </div>
         );
     }
-);

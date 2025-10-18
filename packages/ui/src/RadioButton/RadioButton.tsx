@@ -1,6 +1,5 @@
 "use client";
 
-import { forwardRef } from "react";
 import classNames from "classnames";
 import { Symbol } from "@yakad/symbols";
 import { Button } from "..";
@@ -21,17 +20,18 @@ export interface RadioButtonProps
         onSelect: () => void;
         checked: boolean;
     };
+ref?: React.Ref<HTMLInputElement>
 }
 
-export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
-    function RadioButton(
-        { dataFromRadioGroup, label, onClick, className, ...restProps },
-        ref
-    ) {
+export function RadioButton({
+         dataFromRadioGroup, label, onClick, className,
+        ref,
+        ...restProps
+    }: RadioButtonProps) {
         const joinedClassNames = classNames(styles.radiobutton, {
             [styles.labeled]: label,
             className,
-        });
+})
 
         const onClickRadioButtonHandler = () => {
             dataFromRadioGroup?.onSelect();
@@ -72,4 +72,3 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
             </div>
         );
     }
-);

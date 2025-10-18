@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useImperativeHandle } from "react";
+import { useImperativeHandle } from "react";
 import classNames from "classnames";
 import { Symbol } from "@yakad/symbols";
 import {
@@ -19,17 +19,23 @@ import styles from "./Popup.module.css";
 
 export interface PopupProps extends CardProps, OverlayProps {
     heading?: string;
+    ref?: React.Ref<HTMLDivElement>;
 }
 
-export const Popup = forwardRef<HTMLDivElement, PopupProps>(function Popup(
-    { align, onClose, heading, className, children, ...restProps },
-    forwardedRef
-) {
+export function Popup({
+    align,
+    onClose,
+    heading,
+    className,
+    children,
+    ref,
+    ...restProps
+}: PopupProps) {
     const localRef = useOnOutsideClick<HTMLDivElement>(() => {
         onClose?.();
     });
 
-    useImperativeHandle(forwardedRef, () => localRef.current as HTMLDivElement);
+    useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
     return (
         <Screen align="center" className={styles.popupscreen}>
@@ -56,4 +62,4 @@ export const Popup = forwardRef<HTMLDivElement, PopupProps>(function Popup(
             </Card>
         </Screen>
     );
-});
+}

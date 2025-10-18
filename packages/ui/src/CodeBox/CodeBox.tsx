@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import React from "react";
 import classNames from "classnames";
 import { Symbol } from "@yakad/symbols";
 import { Button, Card } from "..";
@@ -10,19 +10,23 @@ export interface CodeBoxProps extends React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;
 }
 
-export const CodeBox = forwardRef<HTMLDivElement, CodeBoxProps>(
-    function CodeBox({ copyButton, className, children, ...restProps }, ref) {
-        const joinedClassNames = classNames(
-            { [boxingStyles.fullWidthOnParentDemand]: true },
-            styles.ZZZZZZZZZZ,
-            className
-        );
+export function CodeBox({
+    copyButton,
+    className,
+    children,
+    ref,
+    ...restProps
+}: CodeBoxProps & { ref?: React.Ref<HTMLDivElement> }) {
+    const joinedClassNames = classNames(
+        { [boxingStyles.fullWidthOnParentDemand]: true },
+        styles.ZZZZZZZZZZ,
+        className
+    );
 
-        return (
-            <Card ref={ref} {...restProps} className={joinedClassNames}>
-                <pre>{children}</pre>
-                {copyButton && <Button icon={<Symbol icon="copy_all" />} />}
-            </Card>
-        );
-    }
-);
+    return (
+        <Card ref={ref} {...restProps} className={joinedClassNames}>
+            <pre>{children}</pre>
+            {copyButton && <Button icon={<Symbol icon="copy_all" />} />}
+        </Card>
+    );
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./AppBar.module.css";
@@ -12,21 +12,20 @@ export interface AppBarProps extends React.HTMLAttributes<HTMLDivElement> {
     size?: "xs" | "sm" | "md" | "lg" | "xl";
     blur?: boolean;
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLDivElement>;
 }
 
-export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function AppBar(
-    {
-        align,
-        overflow = "shrink",
-        position = "initial",
-        size,
-        blur,
-        className,
-        children,
-        ...restProps
-    },
-    ref
-) {
+export function AppBar({
+    align,
+    overflow = "shrink",
+    position = "initial",
+    size,
+    blur,
+    className,
+    children,
+    ref,
+    ...restProps
+}: AppBarProps) {
     const [show, setShow] = useState(true);
     const [lastScrollY, setLastScrollY] = useState(0);
 
@@ -70,4 +69,4 @@ export const AppBar = forwardRef<HTMLDivElement, AppBarProps>(function AppBar(
             {children}
         </header>
     );
-});
+}

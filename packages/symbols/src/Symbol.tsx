@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import { IconCode } from "./types";
 import styles from "./public/css/style.module.css";
@@ -8,13 +7,14 @@ import "material-symbols/sharp.css";
 
 export interface SymbolProps extends React.HTMLAttributes<HTMLElement> {
     icon: IconCode;
-    filled?: boolean,
+    filled?: boolean;
     type?: "outlined" | "round" | "sharp";
     size?: number | "small" | "medium" | "large";
     mirror?: "horizontal" | "vertical" | "diagonal";
     weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
     grade?: "low" | "medium" | "high";
     opticalSize?: 20 | 24 | 40 | 48;
+    ref?: React.Ref<HTMLSpanElement>;
 }
 
 interface SymbolSizeMap {
@@ -28,22 +28,20 @@ const symbolSizeMaps: SymbolSizeMap = {
     large: 3.2,
 };
 
-export const Symbol = forwardRef<HTMLSpanElement, SymbolProps>(function Symbol(
-    {
-        icon,
-        type = "outlined",
-        size = 2.4,
-        mirror,
-        className,
-        style,
-        filled,
-        weight,
-        grade,
-        opticalSize,
-        ...restProps
-    },
-    ref
-) {
+export function Symbol({
+    icon,
+    type = "outlined",
+    size = 2.4,
+    mirror,
+    className,
+    style,
+    filled,
+    weight,
+    grade,
+    opticalSize,
+    ref,
+    ...restProps
+}: SymbolProps) {
     const gradePresetMap = {
         low: -25,
         medium: 0,
@@ -65,7 +63,7 @@ export const Symbol = forwardRef<HTMLSpanElement, SymbolProps>(function Symbol(
 
     const sizeValue: string =
         (typeof size === "number" ? size : symbolSizeMaps[size]) + "rem";
-    
+
     // Determine font variation axis values
     const computedWeight = weight ?? 400;
     const computedGrade = gradePresetMap[grade ?? "medium"];
@@ -98,4 +96,4 @@ export const Symbol = forwardRef<HTMLSpanElement, SymbolProps>(function Symbol(
             {icon}
         </span>
     );
-});
+}

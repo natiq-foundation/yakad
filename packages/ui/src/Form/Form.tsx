@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import styles from "./Form.module.css";
 import boxingStyles from "../boxing.module.css";
@@ -9,16 +8,14 @@ export interface FormProps extends React.HTMLAttributes<HTMLFormElement> {
     children?: React.ReactNode;
 }
 
-export const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
-    {
+export function Form({
         align,
         fullWidthOnParentDemand = true,
         className,
         children,
+        ref,
         ...restProps
-    },
-    ref
-) {
+    }: FormProps & { ref?: React.Ref<HTMLFormElement> }) {
     const joinedClassNames = classNames(
         boxingStyles.flexColumnBox,
         { [boxingStyles[align as string]]: align },
@@ -33,4 +30,4 @@ export const Form = forwardRef<HTMLFormElement, FormProps>(function Form(
             {children}
         </form>
     );
-});
+}

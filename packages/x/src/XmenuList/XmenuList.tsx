@@ -1,6 +1,6 @@
 "use client";
 
-import { forwardRef, useState } from "react";
+import { useState } from "react";
 import { Button, List, ListItem, ListProps, Spacer } from "@yakad/ui";
 
 interface MenuItem {
@@ -12,70 +12,72 @@ interface MenuItem {
 
 export interface XmenuListProps extends Omit<ListProps, "children"> {
     items: MenuItem[];
+    ref?: React.Ref<HTMLUListElement>;
 }
 
-export const XmenuList = forwardRef<HTMLUListElement, XmenuListProps>(
-    function XmenuList({ items, direction = "column", ...restProps }, ref) {
-        const [collapsedList, setCollapsedList] = useState<{
-            [n: number]: boolean;
-        }>({});
+export function XmenuList({
+    items,
+    direction = "column",
+    ref,
+    ...restProps
+}: XmenuListProps) {
+    const [collapsedList, setCollapsedList] = useState<{
+        [n: number]: boolean;
+    }>({});
 
-        const handleClickcollapseList = (index: number) =>
-            setCollapsedList((prev) => ({
-                ...prev,
-                [index]: prev[index] ? !prev[index] : true,
-            }));
+    const handleClickcollapseList = (index: number) =>
+        setCollapsedList((prev) => ({
+            ...prev,
+            [index]: prev[index] ? !prev[index] : true,
+        }));
 
-        return (
-            <List ref={ref} direction={direction} {...restProps}>
-                {items.map((item, index) => (
-                    <ListItem key={index}>
-                        <Button
-                            variant={
-                                item.selected
-                                    ? "filled"
-                                    : collapsedList[index]
-                                    ? "elevated"
-                                    : "text"
-                            }
-                            borderStyle="semi"
-                            onClick={
-                                item.childs
-                                    ? () => handleClickcollapseList(index)
-                                    : item.onClick
-                            }
-                        >
-                            {item.name}
-                            <Spacer />
-                        </Button>
-                        <List
-                            key={index}
-                            direction="column"
-                            collapsed={!collapsedList[index]}
-                            style={{
-                                marginInlineStart: "1rem",
-                                marginBottom: "0.5rem",
-                                borderInlineStart: "0.1rem solid #72727272",
-                            }}
-                        >
-                            {item.childs?.map((child, childIndex) => (
-                                <ListItem key={childIndex}>
-                                    <Button
-                                        size="small"
-                                        borderStyle="semi"
-                                        variant={
-                                            child.selected ? "filled" : "text"
-                                        }
-                                        onClick={child.onClick}
-                                    >
-                                        {child.name}
-                                    </Button>
-                                </ListItem>
-                            ))}
-                        </List>
-                    </ListItem>
-                ))}
-            </List>
-        );
-    }
-);
+    return (
+        <List ref={ref} direction={direction} {...restProps}>
+            {items.map((item, index) => (
+                <ListItem key={index}>
+                    <Button
+                        variant={
+                            item.selected
+                                ? "filled"
+                                : collapsedList[index]
+                                ? "elevated"
+                                : "text"
+                        }
+                        borderStyle="semi"
+                        onClick={
+                            item.childs
+                                ? () => handleClickcollapseList(index)
+                                : item.onClick
+                        }
+                    >
+                        {item.name}
+                        <Spacer />
+                    </Button>
+                    <List
+                        key={index}
+                        direction="column"
+                        collapsed={!collapsedList[index]}
+                        style={{
+                            marginInlineStart: "1rem",
+                            marginBottom: "0.5rem",
+                            borderInlineStart: "0.1rem solid #72727272",
+                        }}
+                    >
+                        {item.childs?.map((child, childIndex) => (
+                            <ListItem key={childIndex}>
+                                <Button
+                                    size="small"
+                                    borderStyle="semi"
+                                    variant={child.selected ? "filled" : "text"}
+                                    onClick={child.onClick}
+                                >
+                                    {child.name}
+                                </Button>
+                            </ListItem>
+                        ))}
+                    </List>
+                </ListItem>
+            ))}
+        </List>
+    );
+}

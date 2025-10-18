@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./Screen.module.css";
@@ -8,10 +7,11 @@ export interface ScreenProps extends React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;
 }
 
-export const Screen = forwardRef<HTMLDivElement, ScreenProps>(function Screen(
-    { align, className, children, ...restProps },
-    ref
-) {
+export function Screen({
+         align, className, children, 
+        ref,
+        ...restProps
+    }: ScreenProps & { ref?: React.Ref<HTMLDivElement> }) {
     const joinedClassNames = classNames(
         boxingStyles.flexColumnBox,
         { [boxingStyles[align as string]]: align },
@@ -25,4 +25,4 @@ export const Screen = forwardRef<HTMLDivElement, ScreenProps>(function Screen(
             {children}
         </div>
     );
-});
+}

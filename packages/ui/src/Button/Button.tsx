@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import { LoadingIcon } from "..";
 import boxingStyles from "../boxing.module.css";
@@ -23,55 +22,52 @@ export interface ButtonProps
     loadingPosition?: "auto" | "center";
     loadingVariant?: "scaleOut" | "dots" | "spinner";
     children?: React.ReactNode;
+    ref?: React.Ref<HTMLButtonElement>;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-    function Button(
-        {
-            fullWidthOnParentDemand = false,
-            size = "medium",
-            variant = "text",
-            borderStyle = "rounded",
-            icon,
-            iconPosition = "start",
-            loadingPosition = "auto",
-            loadingVariant,
-            className,
-            children,
-            ...restProps
-        },
-        ref
-    ) {
-        const childrenFirst = iconPosition === "end";
-        const isloadingPositionCenter = !icon || loadingPosition === "center";
+export function Button({
+    fullWidthOnParentDemand = false,
+    size = "medium",
+    variant = "text",
+    borderStyle = "rounded",
+    icon,
+    iconPosition = "start",
+    loadingPosition = "auto",
+    loadingVariant,
+    className,
+    children,
+    ref,
+    ...restProps
+}: ButtonProps) {
+    const childrenFirst = iconPosition === "end";
+    const isloadingPositionCenter = !icon || loadingPosition === "center";
 
-        const joinedClassNames = classNames(
-            { [boxingStyles.fullWidthOnParentDemand]: fullWidthOnParentDemand },
-            styles.button,
-            styles[variant],
-            { [styles.loading]: loadingVariant },
-            { [styles.loadingPositionCenter]: isloadingPositionCenter },
-            styles[size],
-            styles[borderStyle],
-            { [styles.iconButton]: !children && icon },
-            className
-        );
+    const joinedClassNames = classNames(
+        { [boxingStyles.fullWidthOnParentDemand]: fullWidthOnParentDemand },
+        styles.button,
+        styles[variant],
+        { [styles.loading]: loadingVariant },
+        { [styles.loadingPositionCenter]: isloadingPositionCenter },
+        styles[size],
+        styles[borderStyle],
+        { [styles.iconButton]: !children && icon },
+        className
+    );
 
-        return (
-            <button ref={ref} className={joinedClassNames} {...restProps}>
-                {childrenFirst && children}
-                {loadingVariant && (
-                    <div
-                        className={classNames(styles.displayOnDisabled, {
-                            [styles.positionCenter]: isloadingPositionCenter,
-                        })}
-                    >
-                        <LoadingIcon size={size} variant={loadingVariant} />
-                    </div>
-                )}
-                {icon}
-                {!childrenFirst && children}
-            </button>
-        );
-    }
-);
+    return (
+        <button ref={ref} className={joinedClassNames} {...restProps}>
+            {childrenFirst && children}
+            {loadingVariant && (
+                <div
+                    className={classNames(styles.displayOnDisabled, {
+                        [styles.positionCenter]: isloadingPositionCenter,
+                    })}
+                >
+                    <LoadingIcon size={size} variant={loadingVariant} />
+                </div>
+            )}
+            {icon}
+            {!childrenFirst && children}
+        </button>
+    );
+}

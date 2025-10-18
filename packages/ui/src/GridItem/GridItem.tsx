@@ -1,4 +1,3 @@
-import { forwardRef } from "react";
 import classNames from "classnames";
 import boxingStyles from "../boxing.module.css";
 import styles from "./GridItem.module.css";
@@ -14,11 +13,11 @@ export interface GridItemProps extends React.HTMLAttributes<HTMLDivElement> {
     children?: React.ReactNode;
 }
 
-export const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
-    function GridItem(
-        { align, xs, sm, md, lg, xl, className, children, ...restProps },
-        ref
-    ) {
+export function GridItem({
+         align, xs, sm, md, lg, xl, className, children,
+        ref,
+        ...restProps
+    }: GridItemProps & { ref?: React.Ref<HTMLDivElement> }) {
         const joinedClassNames = classNames(
             boxingStyles.flexColumnBox,
             { [boxingStyles[align as string]]: align },
@@ -38,4 +37,3 @@ export const GridItem = forwardRef<HTMLDivElement, GridItemProps>(
             </div>
         );
     }
-);
