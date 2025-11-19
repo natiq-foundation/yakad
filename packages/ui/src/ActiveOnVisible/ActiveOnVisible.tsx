@@ -23,7 +23,7 @@ export function ActiveOnVisible({
     // Let the parent access our DOM node
     useImperativeHandle(ref, () => localRef.current as HTMLDivElement);
 
-    useOnVisibilityChange((visible) => {
+    useOnVisibilityChange((visible: boolean) => {
         onVisibilityChange?.(visible);
         if (visible) {
             setBoxHeight(0);

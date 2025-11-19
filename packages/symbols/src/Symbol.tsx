@@ -31,7 +31,7 @@ const symbolSizeMaps: SymbolSizeMap = {
 export function Symbol({
     icon,
     type = "outlined",
-    size = 2.4,
+    size = 24,
     mirror,
     className,
     style,
@@ -62,7 +62,7 @@ export function Symbol({
     );
 
     const sizeValue: string =
-        (typeof size === "number" ? size : symbolSizeMaps[size]) + "rem";
+        (typeof size === "number" ? size : symbolSizeMaps[size]) + "px";
 
     // Determine font variation axis values
     const computedWeight = weight ?? 400;
