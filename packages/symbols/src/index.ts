@@ -1,2 +1,2 @@
-export * from "./Symbol";
+export * from "./Material";
 export * from "./types";

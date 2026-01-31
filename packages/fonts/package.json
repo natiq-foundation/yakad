@@ -1,20 +1,21 @@
 {
-    "name": "@yakad/symbols",
-    "version": "1.0.31",
+    "name": "@yakad/fonts",
+    "version": "1.0.0",
     "private": false,
     "author": "Natiq",
-    "description": "Material Symbols",
+    "description": "Yakad quran fonts",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "keywords": [
         "yakad",
-        "material",
-        "symbol"
+        "react",
+        "nextjs",
+        "fonts"
     ],
     "repository": {
         "type": "git",
         "url": "git+https://github.com/natiq-foundation/yakad.git",
-        "directory": "packages/symbols"
+        "directory": "packages/fonts"
     },
     "license": "MIT",
     "bugs": {
@@ -23,23 +24,16 @@
     "homepage": "https://yakad.natiq.net",
     "scripts": {
         "clean": "rimraf dist/",
-        "copy-files": "copyfiles -u 1 src/public/**/* dist/",
-        "build": "npm run clean && tsc && npm run copy-files",
+        "copy-files:css": "copyfiles -u 1 src/*.css src/**/*.css dist/",
+        "copy-files:svg": "copyfiles -u 1 src/*.svg src/**/*.svg dist/",
+        "build": "npm run clean && tsc && npm run copy-files:css && npm run copy-files:svg",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint src/**/*.{ts,tsx}",
+        "lint": "eslint src/*.ts",
         "test": "echo \"No tests specified\" && exit 0",
         "prepublishOnly": "npm run lint && npm run test && npm run build && npm run typecheck"
     },
     "dependencies": {
-        "classnames": "2.5.1",
-        "material-symbols": "^0.36.2"
-    },
-    "peerDependencies": {
-        "react": "^18.0.0 || ^19.0.0"
-    },
-    "devDependencies": {
-        "@types/css-modules": "1.0.5",
-        "@types/react": "^19.0.0",
-        "react": "^19.0.0"
+        "@next/font": "^14.2.15",
+        "classnames": "2.5.1"
     }
 }
