@@ -116,7 +116,6 @@ export type FlagCode =
   | "ic"
   | "id"
   | "ie"
-  | "il"
   | "im"
   | "in"
   | "io"
