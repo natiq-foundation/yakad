@@ -1,0 +1,18 @@
+import type { SVGProps } from "react";
+
+export function LVFlag(props: SVGProps<SVGSVGElement>) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      id="flag-icons-lv"
+      viewBox="0 0 640 480"
+    >
+      <g fillRule="evenodd">
+        <path fill="#981e32" d="M0 0h640v192H0z" />
+        <path fill="#fff" d="M0 192h640v96H0z" />
+        <path fill="#981e32" d="M0 288h640v192H0z" />
+      </g>
+    </svg>
+  );
+}
