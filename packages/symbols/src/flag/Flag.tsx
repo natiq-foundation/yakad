@@ -1,4 +1,3 @@
-// Flag.tsx
 import React from "react";
 import * as Flags from "./flags";
 import type { FlagCode } from "./types";

@@ -1,6 +1,6 @@
 {
     "name": "@yakad/lib",
-    "version": "1.0.26",
+    "version": "1.0.27",
     "private": false,
     "description": "Utility functions and helpers for the Yakad ecosystem",
     "main": "dist/index.js",
