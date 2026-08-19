@@ -1,17 +1,18 @@
 import { countries } from "./data";
+import { CountryAlpha2Code, CountryAlpha3Code } from "./types";
 
 export interface CountryData {
     name: string;
-    alpha2Code: string;
-    alpha3Code: string;
+    alpha2Code: CountryAlpha2Code;
+    alpha3Code: CountryAlpha3Code;
     dialingCode: number;
     dialingCodePrimary: boolean;
 }
 
 export class Country implements CountryData {
     name: string;
-    alpha2Code: string;
-    alpha3Code: string;
+    alpha2Code: CountryAlpha2Code;
+    alpha3Code: CountryAlpha3Code;
     dialingCode: number;
     dialingCodePrimary: boolean;
 
