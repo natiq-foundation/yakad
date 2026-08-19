@@ -74,3 +74,6 @@ export function getCountryByAlpha3Code(value: string): Country {
 export function getCountryByDialingCode(value: number): Country {
     return Country.fromDialingCode(value);
 }
+export function getCountries(): Country[] {
+    return countries.map((country) => new Country(country.alpha2Code));
+}
