@@ -1,40 +1,82 @@
-import classNames from "classnames";
-import { Material } from "@yakad/symbols";
-import boxingStyles from "../boxing.module.css";
-import styles from "./CheckBox.module.css";
+import * as React from "react";
+import * as CheckboxPrimitive from "@radix-ui/react-checkbox";
+import { cva, type VariantProps } from "class-variance-authority";
 
-type ExcludedTypes = "type";
-export interface CheckBoxProps
-    extends Omit<React.InputHTMLAttributes<HTMLInputElement>, ExcludedTypes> {
-    label?: string;
-    ref?: React.Ref<HTMLInputElement>;
-}
+const checkboxVariants = cva(
+    [
+        "peer",
+        "relative",
+        "inline-flex",
+        "shrink-0",
+        "items-center",
+        "justify-center",
+        "rounded-[4px]",
+        "border",
+        "border-slate-500",
+        "bg-transparent",
+        "text-white",
+        "transition-colors",
+        "duration-150",
+        "ease-out",
+        "outline-none",
+        "focus-visible:ring-2",
+        "focus-visible:ring-slate-500",
+        "focus-visible:ring-offset-2",
+        "disabled:pointer-events-none",
+        "disabled:opacity-50",
+        "data-[state=checked]:border-slate-900",
+        "data-[state=checked]:bg-slate-900",
+        "data-[state=indeterminate]:border-slate-900",
+        "data-[state=indeterminate]:bg-slate-900",
+    ],
+    {
+        variants: {
+            size: {
+                small: "h-4 w-4",
+                medium: "h-[18px] w-[18px]",
+                large: "h-5 w-5",
+            },
+        },
+        defaultVariants: {
+            size: "medium",
+        },
+    },
+);
 
-export function CheckBox({
-    label,
-    className,
-    style,
-    ...restProps
-}: CheckBoxProps) {
-    const joinedClassNames = classNames(
-        { [boxingStyles.fullWidthOnParentDemand]: label },
-        styles.label,
-        { [styles.labeled]: label },
-        { [styles.disabled]: restProps.disabled },
-        className
-    );
+type CheckboxProps =
+    React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> &
+    VariantProps<typeof checkboxVariants>;
 
+const Checkbox = React.forwardRef<
+    React.ElementRef<typeof CheckboxPrimitive.Root>,
+    CheckboxProps
+>(({ className, size, ...props }, ref) => {
     return (
-        <label className={joinedClassNames} style={style}>
-            {label}
-            <input {...restProps} className={styles.input} type="checkbox" />
-            <div className={styles.symbolContainer}>
-                <Material className={styles.symbolChecked} icon={"check_box"} />
-                <Material
-                    className={styles.symbolUnChecked}
-                    icon={"check_box_outline_blank"}
-                />
-            </div>
-        </label>
+        <CheckboxPrimitive.Root
+            ref={ref}
+            className={checkboxVariants({ size, className })}
+            {...props}
+        >
+            <CheckboxPrimitive.Indicator
+                className="flex items-center justify-center"
+            >
+                <svg
+                    viewBox="0 0 24 24"
+                    className="h-full w-full"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                >
+                    <path d="M5 12.5 10 17l9-10" />
+                </svg>
+            </CheckboxPrimitive.Indicator>
+        </CheckboxPrimitive.Root>
     );
-}
+});
+
+Checkbox.displayName = CheckboxPrimitive.Root.displayName;
+
+export { Checkbox, checkboxVariants };
+export type { CheckboxProps };

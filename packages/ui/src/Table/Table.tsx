@@ -1,109 +1,178 @@
-import classNames from "classnames";
-import boxingStyles from "../boxing.module.css";
-import styles from "./Table.module.css";
+import * as React from "react";
+import { cva, type VariantProps } from "class-variance-authority";
 
-export interface TableProps
-    extends React.TableHTMLAttributes<HTMLTableElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableElement>;
-}
-export function Table({ className, children, ...restProps }: TableProps) {
-    const joinedClassNames = classNames(
-        { [boxingStyles.fullWidthOnParentDemand]: true },
-        styles.table,
-        className
-    );
+const tableVariants = cva(
+    "w-full caption-bottom text-sm",
+    {
+        variants: {
+            size: {
+                small: "[&_th]:h-8 [&_th]:px-3 [&_td]:px-3 [&_td]:py-2",
+                medium: "[&_th]:h-10 [&_th]:px-4 [&_td]:px-4 [&_td]:py-3",
+                large: "[&_th]:h-12 [&_th]:px-5 [&_td]:px-5 [&_td]:py-4",
+            },
+        },
+        defaultVariants: {
+            size: "medium",
+        },
+    },
+);
 
-    return (
-        <table {...restProps} className={joinedClassNames}>
-            {children}
-        </table>
-    );
-}
+type TableProps =
+    React.ComponentPropsWithoutRef<"table"> &
+    VariantProps<typeof tableVariants>;
 
-export interface TheadProps
-    extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableSectionElement>;
-}
-export function Thead({ className, children, ...restProps }: TheadProps) {
-    const joinedClassNames = classNames(styles.thead, className);
+const Table = React.forwardRef<HTMLTableElement, TableProps>(
+    ({ className, size, ...props }, ref) => (
+        <div className="relative w-full overflow-auto">
+            <table
+                ref={ref}
+                className={tableVariants({
+                    size,
+                    className,
+                })}
+                {...props}
+            />
+        </div>
+    ),
+);
 
-    return (
-        <thead {...restProps} className={joinedClassNames}>
-            {children}
-        </thead>
-    );
-}
+Table.displayName = "Table";
 
-export interface TbodyProps
-    extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableSectionElement>;
-}
-export function Tbody({ className, children, ...restProps }: TbodyProps) {
-    const joinedClassNames = classNames(styles.tbody, className);
+const TableHeader = React.forwardRef<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<"thead">
+>(({ className, ...props }, ref) => (
+    <thead
+        ref={ref}
+        className={[
+            "[&_tr]:border-b",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
 
-    return (
-        <tbody {...restProps} className={joinedClassNames}>
-            {children}
-        </tbody>
-    );
-}
+TableHeader.displayName = "TableHeader";
 
-export interface TfootProps
-    extends React.HTMLAttributes<HTMLTableSectionElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableSectionElement>;
-}
-export function Tfoot({ className, children, ...restProps }: TfootProps) {
-    const joinedClassNames = classNames(styles.tfoot, className);
+const TableBody = React.forwardRef<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<"tbody">
+>(({ className, ...props }, ref) => (
+    <tbody
+        ref={ref}
+        className={[
+            "[&_tr:last-child]:border-0",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
 
-    return (
-        <tfoot {...restProps} className={joinedClassNames}>
-            {children}
-        </tfoot>
-    );
-}
+TableBody.displayName = "TableBody";
 
-export interface TrProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableRowElement>;
-}
-export function Tr({ className, children, ...restProps }: TrProps) {
-    const joinedClassNames = classNames(styles.tr, className);
+const TableFooter = React.forwardRef<
+    HTMLTableSectionElement,
+    React.ComponentPropsWithoutRef<"tfoot">
+>(({ className, ...props }, ref) => (
+    <tfoot
+        ref={ref}
+        className={[
+            "border-t",
+            "font-medium",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
 
-    return (
-        <tr {...restProps} className={joinedClassNames}>
-            {children}
-        </tr>
-    );
-}
+TableFooter.displayName = "TableFooter";
 
-export interface ThProps extends React.HTMLAttributes<HTMLTableCellElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableCellElement>;
-}
-export function Th({ className, children, ...restProps }: ThProps) {
-    const joinedClassNames = classNames(styles.th, className);
+const TableRow = React.forwardRef<
+    HTMLTableRowElement,
+    React.ComponentPropsWithoutRef<"tr">
+>(({ className, ...props }, ref) => (
+    <tr
+        ref={ref}
+        className={[
+            "border-b",
+            "transition-colors",
+            "hover:bg-slate-50",
+            "data-[state=selected]:bg-slate-100",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
 
-    return (
-        <th {...restProps} className={joinedClassNames}>
-            {children}
-        </th>
-    );
-}
+TableRow.displayName = "TableRow";
 
-export interface TdProps extends React.HTMLAttributes<HTMLTableCellElement> {
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLTableCellElement>;
-}
-export function Td({ className, children, ...restProps }: TdProps) {
-    const joinedClassNames = classNames(styles.td, className);
+const TableHead = React.forwardRef<
+    HTMLTableCellElement,
+    React.ComponentPropsWithoutRef<"th">
+>(({ className, ...props }, ref) => (
+    <th
+        ref={ref}
+        className={[
+            "text-left",
+            "align-middle",
+            "font-medium",
+            "text-slate-600",
+            "[&:has([role=checkbox])]:pr-0",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
 
-    return (
-        <td {...restProps} className={joinedClassNames}>
-            {children}
-        </td>
-    );
-}
+TableHead.displayName = "TableHead";
+
+const TableCell = React.forwardRef<
+    HTMLTableCellElement,
+    React.ComponentPropsWithoutRef<"td">
+>(({ className, ...props }, ref) => (
+    <td
+        ref={ref}
+        className={[
+            "align-middle",
+            "[&:has([role=checkbox])]:pr-0",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
+
+TableCell.displayName = "TableCell";
+
+const TableCaption = React.forwardRef<
+    HTMLTableCaptionElement,
+    React.ComponentPropsWithoutRef<"caption">
+>(({ className, ...props }, ref) => (
+    <caption
+        ref={ref}
+        className={[
+            "mt-4",
+            "text-sm",
+            "text-slate-500",
+            className ?? "",
+        ].join(" ")}
+        {...props}
+    />
+));
+
+TableCaption.displayName = "TableCaption";
+
+export {
+    Table,
+    TableHeader,
+    TableBody,
+    TableFooter,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableCaption,
+    tableVariants,
+};
+
+export type {
+    TableProps,
+};

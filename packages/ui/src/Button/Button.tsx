@@ -1,72 +1,62 @@
-import classNames from "classnames";
-import { Spinner } from "@yakad/symbols";
-import boxingStyles from "../boxing.module.css";
-import styles from "./Button.module.css";
+import React from "react";
+import { Slot } from "@radix-ui/react-slot";
+import { cva, type VariantProps } from "class-variance-authority";
+
+const buttonVariants = cva(
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+    {
+        variants: {
+            variant: {
+                filled:
+                    "bg-primary text-primary-foreground hover:bg-primary/90",
+                tonal:
+                    "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                outlined:
+                    "border border-outline bg-transparent text-foreground hover:bg-muted",
+                elevated:
+                    "bg-surface text-foreground shadow-sm hover:bg-muted",
+                text:
+                    "bg-transparent text-primary hover:bg-primary/10",
+            },
+        },
+        defaultVariants: {
+            variant: "filled",
+        },
+    }
+);
 
 export interface ButtonProps
-    extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-    fullWidthOnParentDemand?: boolean;
-    size?: "small" | "medium" | "large";
-    variant?:
-    | "text"
-    | "outlined"
-    | "filled"
-    | "filledtonal"
-    | "tonal"
-    | "elevated"
-    | "link"
-    | "fab";
-    borderStyle?: "none" | "semi" | "squircle" | "rounded";
-    icon?: React.ReactNode;
-    iconPosition?: "start" | "end";
-    loadingPosition?: "auto" | "center";
-    loadingVariant?: "scaleOut" | "dots" | "spinner";
-    children?: React.ReactNode;
-    ref?: React.Ref<HTMLButtonElement>;
+    extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+    asChild?: boolean;
 }
 
-export function Button({
-    fullWidthOnParentDemand = false,
-    size = "medium",
-    variant = "text",
-    borderStyle = "rounded",
-    icon,
-    iconPosition = "start",
-    loadingPosition = "auto",
-    loadingVariant,
-    className,
-    children,
-    ...restProps
-}: ButtonProps) {
-    const childrenFirst = iconPosition === "end";
-    const isloadingPositionCenter = !icon || loadingPosition === "center";
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+    (
+        {
+            className,
+            variant,
+            asChild = false,
+            ...props
+        },
+        ref
+    ) => {
+        const Comp = asChild ? Slot : "button";
 
-    const joinedClassNames = classNames(
-        { [boxingStyles.fullWidthOnParentDemand]: fullWidthOnParentDemand },
-        styles.button,
-        styles[variant],
-        { [styles.loading]: loadingVariant },
-        { [styles.loadingPositionCenter]: isloadingPositionCenter },
-        styles[size],
-        styles[borderStyle],
-        { [styles.iconButton]: !children && icon },
-        className
-    );
+        return (
+            <Comp
+                ref={ref}
+                data-slot="button"
+                className={buttonVariants({
+                    variant,
+                    className,
+                })}
+                {...props}
+            />
+        );
+    }
+);
 
-    return (
-        <button className={joinedClassNames} {...restProps}>
-            {childrenFirst && children}
-            {loadingVariant && (
-                <div
-                    className={classNames(styles.displayOnDisabled, {
-                        [styles.positionCenter]: isloadingPositionCenter,
-                    })}
-                >
-                    <Spinner size={size} variant={loadingVariant} />
-                </div>
-            )}
-            {icon}
-            {!childrenFirst && children}
-        </button>
-    );
-}
+Button.displayName = "Button";
+
+export { Button, buttonVariants };
