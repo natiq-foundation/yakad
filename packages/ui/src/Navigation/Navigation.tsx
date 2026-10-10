@@ -101,7 +101,8 @@ const NavigationMenuList = React.forwardRef<
             "items-center",
             "justify-center",
             "gap-1",
-        ].join(" ")}
+            className,
+        ].filter(Boolean).join(" ")}
         {...props}
     />
 ));

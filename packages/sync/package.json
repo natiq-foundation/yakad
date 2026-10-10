@@ -13,7 +13,7 @@
         "local-test-yt": "tsc && npm start -- -r https://github.com/natiq-foundation/yakad-template.git -v -t .cache/syncedrepo",
         "build": "tsc",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint src/**/*.{ts,tsx}",
+        "lint": "eslint src",
         "test": "jest",
         "prepublishOnly": "npm run lint && npm run test && npm run build && npm run typecheck"
     },
