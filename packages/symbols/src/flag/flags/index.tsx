@@ -267,6 +267,4 @@ export * from "./ye";
 export * from "./yt";
 export * from "./za";
 export * from "./zm";
-export * from "./ir";
-export * from "./us";
-export * from "./iq";
+export * from "./zw";

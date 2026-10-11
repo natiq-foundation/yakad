@@ -1,0 +1,1 @@
+export const sourceColor = "#6750A4";

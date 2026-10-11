@@ -1,37 +1,119 @@
-import classNames from "classnames";
-import { Stack, StackProps } from "..";
-import styles from "./Card.module.css";
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
 
-export interface CardProps extends StackProps {
-    blur?: boolean;
-    level?: "transparent" | "low" | "mid" | "high";
-    hoverEffect?: boolean;
-    ref?: React.Ref<HTMLDivElement>;
+const cardVariants = cva(
+    "relative flex w-full flex-col overflow-hidden rounded-xl",
+    {
+        variants: {
+            variant: {
+                elevated: "bg-white shadow-sm",
+                filled: "bg-gray-100",
+                outlined: "bg-white border border-gray-300",
+            },
+        },
+        defaultVariants: {
+            variant: "elevated",
+        },
+    }
+)
+
+type CardProps = React.ComponentProps<"div"> &
+    VariantProps<typeof cardVariants>
+
+function Card({ className, variant, ...props }: CardProps) {
+    return (
+        <div
+            data-slot="card"
+            className={`${cardVariants({ variant })} ${className ?? ""}`}
+            {...props}
+        />
+    )
 }
 
-export function Card({
-    blur,
-    level,
-    hoverEffect,
+function CardHeader({
     className,
-    children,
-    ...restProps
-}: CardProps) {
-    const joinedClassNames = classNames(
-        styles.card,
-        { [styles.blur]: blur },
-        { [styles.elevated]: level !== "transparent" },
-        { [styles.hoverEffect]: hoverEffect },
-        { [styles.yakadCardAutoLevel]: !level || level === "transparent" },
-        { [styles.yakadCardLowLevel]: level === "low" },
-        { [styles.yakadCardMidLevel]: level === "mid" },
-        { [styles.yakadCardHighLevel]: level === "high" },
-        className
-    );
-
+    ...props
+}: React.ComponentProps<"div">) {
     return (
-        <Stack {...restProps} className={joinedClassNames}>
-            {children}
-        </Stack>
-    );
+        <div
+            data-slot="card-header"
+            className={`grid grid-cols-[1fr_auto] items-start gap-4 p-6 ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+function CardTitle({
+    className,
+    ...props
+}: React.ComponentProps<"h3">) {
+    return (
+        <h3
+            data-slot="card-title"
+            className={`text-xl font-medium leading-7 ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+function CardDescription({
+    className,
+    ...props
+}: React.ComponentProps<"p">) {
+    return (
+        <p
+            data-slot="card-description"
+            className={`mt-1 text-sm text-gray-600 ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+function CardContent({
+    className,
+    ...props
+}: React.ComponentProps<"div">) {
+    return (
+        <div
+            data-slot="card-content"
+            className={`px-6 pb-6 ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+function CardFooter({
+    className,
+    ...props
+}: React.ComponentProps<"div">) {
+    return (
+        <div
+            data-slot="card-footer"
+            className={`flex items-center gap-2 px-6 pb-6 ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+function CardAction({
+    className,
+    ...props
+}: React.ComponentProps<"div">) {
+    return (
+        <div
+            data-slot="card-action"
+            className={`col-start-2 row-span-2 row-start-1 self-start ${className ?? ""}`}
+            {...props}
+        />
+    )
+}
+
+export {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+    CardFooter,
+    CardAction,
 }

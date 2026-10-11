@@ -1,47 +1,111 @@
-"use client";
+import * as React from "react";
+import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
+import { cva, type VariantProps } from "class-variance-authority";
 
-import { useState, Children } from "react";
-import { RadioButton, RadioButtonProps } from "..";
+const radioGroupVariants = cva(
+    "grid",
+    {
+        variants: {
+            orientation: {
+                horizontal: "grid-flow-col auto-cols-max gap-4",
+                vertical: "grid-flow-row gap-3",
+            },
+        },
+        defaultVariants: {
+            orientation: "vertical",
+        },
+    },
+);
 
-type RadioButtonElement = React.ReactElement<RadioButtonProps>;
-type ExcludedTypes = "defaultValue" | "children";
-export interface RadioGroupProps
-    extends Omit<React.HTMLAttributes<HTMLDivElement>, ExcludedTypes> {
-    name: string;
-    defaultValue?: string;
-    children?: RadioButtonElement | RadioButtonElement[];
-    ref?: React.Ref<HTMLDivElement>;
-}
+const radioGroupItemVariants = cva(
+    [
+        "peer",
+        "relative",
+        "shrink-0",
+        "rounded-full",
+        "border",
+        "border-slate-500",
+        "bg-transparent",
+        "outline-none",
+        "transition-colors",
+        "duration-150",
+        "ease-out",
+        "focus-visible:ring-2",
+        "focus-visible:ring-slate-500",
+        "focus-visible:ring-offset-2",
+        "disabled:pointer-events-none",
+        "disabled:opacity-50",
+        "data-[state=checked]:border-slate-900",
+    ],
+    {
+        variants: {
+            size: {
+                small: "h-4 w-4",
+                medium: "h-[18px] w-[18px]",
+                large: "h-5 w-5",
+            },
+        },
+        defaultVariants: {
+            size: "medium",
+        },
+    },
+);
 
-export function RadioGroup({
-    name,
-    defaultValue,
-    className,
-    children,
-    ...restProps
-}: RadioGroupProps) {
-    const [selectedValue, setSelectedValue] = useState<string | number | null>(
-        defaultValue || null
-    );
+type RadioGroupProps =
+    React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root> &
+    VariantProps<typeof radioGroupVariants>;
 
-    const arrayChildren = Children.toArray(children);
+const RadioGroup = React.forwardRef<
+    React.ElementRef<typeof RadioGroupPrimitive.Root>,
+    RadioGroupProps
+>(({ className, orientation, ...props }, ref) => (
+    <RadioGroupPrimitive.Root
+        ref={ref}
+        orientation={orientation}
+        className={radioGroupVariants({
+            orientation,
+            className,
+        })}
+        {...props}
+    />
+));
 
-    const renderChildrens = () =>
-        (arrayChildren as RadioButtonElement[]).map((child, index) => (
-            <RadioButton
-                key={index}
-                {...child.props}
-                dataFromRadioGroup={{
-                    name: name,
-                    onSelect: () => setSelectedValue(child.props.value),
-                    checked: selectedValue === child.props.value,
-                }}
-            />
-        ));
+RadioGroup.displayName = RadioGroupPrimitive.Root.displayName;
 
-    return (
-        <div {...restProps} className={className}>
-            {renderChildrens()}
-        </div>
-    );
-}
+type RadioGroupItemProps =
+    React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> &
+    VariantProps<typeof radioGroupItemVariants>;
+
+const RadioGroupItem = React.forwardRef<
+    React.ElementRef<typeof RadioGroupPrimitive.Item>,
+    RadioGroupItemProps
+>(({ className, size, ...props }, ref) => (
+    <RadioGroupPrimitive.Item
+        ref={ref}
+        className={radioGroupItemVariants({
+            size,
+            className,
+        })}
+        {...props}
+    >
+        <RadioGroupPrimitive.Indicator
+            className="flex items-center justify-center"
+        >
+            <span className="h-2 w-2 rounded-full bg-slate-900" />
+        </RadioGroupPrimitive.Indicator>
+    </RadioGroupPrimitive.Item>
+));
+
+RadioGroupItem.displayName = RadioGroupPrimitive.Item.displayName;
+
+export {
+    RadioGroup,
+    RadioGroupItem,
+    radioGroupVariants,
+    radioGroupItemVariants,
+};
+
+export type {
+    RadioGroupProps,
+    RadioGroupItemProps,
+};

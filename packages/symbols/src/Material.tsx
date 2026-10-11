@@ -4,12 +4,13 @@ import styles from "./public/css/style.module.css";
 import "material-symbols/outlined.css";
 import "material-symbols/rounded.css";
 import "material-symbols/sharp.css";
+import { IconSizeKey, resolveIconSize, resolveOpticalSize } from "./sizes";
 
 export interface MaterialProps extends React.HTMLAttributes<HTMLElement> {
     icon: IconCode;
     filled?: boolean;
     type?: "outlined" | "round" | "sharp";
-    size?: number | "small" | "medium" | "large";
+    size?: number | IconSizeKey;
     mirror?: "horizontal" | "vertical" | "diagonal";
     weight?: 100 | 200 | 300 | 400 | 500 | 600 | 700;
     grade?: "low" | "medium" | "high";
@@ -17,21 +18,10 @@ export interface MaterialProps extends React.HTMLAttributes<HTMLElement> {
     ref?: React.Ref<HTMLSpanElement>;
 }
 
-interface MaterialSizeMap {
-    small: number;
-    medium: number;
-    large: number;
-}
-const symbolSizeMaps: MaterialSizeMap = {
-    small: 2,
-    medium: 2.4,
-    large: 3.2,
-};
-
 export function Material({
     icon,
     type = "outlined",
-    size = 24,
+    size = "medium",
     mirror,
     className,
     style,
@@ -61,14 +51,12 @@ export function Material({
         className
     );
 
-    const sizeValue: string =
-        (typeof size === "number" ? size : symbolSizeMaps[size]) + "px";
+    const pxSize = resolveIconSize(size);
+    const sizeValue = `${pxSize}px`;
 
-    // Determine font variation axis values
     const computedWeight = weight ?? 400;
     const computedGrade = gradePresetMap[grade ?? "medium"];
-
-    const computedOpsz = (opticalSize ?? 24) as 20 | 24 | 40 | 48;
+    const computedOpsz = opticalSize ?? resolveOpticalSize(pxSize);
 
     const fontVariationParts = [
         `"FILL" ${filled ? 1 : 0}`,
