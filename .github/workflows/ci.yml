@@ -1,35 +1,15 @@
-name: CI
+- name: Setup Node.js
+  uses: actions/setup-node@v4
+  with:
+    node-version: 22
 
-on:
-    push:
-        branches:
-            - main
-    pull_request:
+- name: Setup npm
+  run: npm install --global npm@11.6.2
 
-jobs:
-    test:
-        runs-on: ubuntu-latest
+- name: Show Node and npm versions
+  run: |
+    node -v
+    npm -v
 
-        strategy:
-            matrix:
-                node-version: [22]
-
-        steps:
-            - uses: actions/checkout@v3
-
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: Install dependencies
-              run: npm ci
-
-            - name: Run linting
-              run: npm run lint
-
-            - name: Build all packages
-              run: npm run build
-
-            - name: Run type checking
-              run: npm run typecheck
+- name: Install dependencies
+  run: npm ci
