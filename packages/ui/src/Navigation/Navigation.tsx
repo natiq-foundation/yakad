@@ -1,3 +1,4 @@
+
 import * as React from "react";
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu";
 import { cva, type VariantProps } from "class-variance-authority";
@@ -25,47 +26,46 @@ const navigationMenuVariants = cva(
     },
 );
 
-const navigationMenuTriggerVariants = cva(
-    [
-        "group",
-        "inline-flex",
-        "items-center",
-        "justify-center",
-        "gap-1",
-        "rounded-md",
-        "px-4",
-        "py-2",
-        "text-sm",
-        "font-medium",
-        "outline-none",
-        "transition-colors",
-        "hover:bg-slate-100",
-        "focus-visible:ring-2",
-        "focus-visible:ring-slate-500",
-        "disabled:pointer-events-none",
-        "disabled:opacity-50",
-        "data-[state=open]:bg-slate-100",
-    ],
-);
+const navigationMenuTriggerVariants = cva([
+    "group",
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "gap-1",
+    "rounded-md",
+    "px-4",
+    "py-2",
+    "text-sm",
+    "font-medium",
+    "text-[var(--md-sys-color-on-surface)]",
+    "outline-none",
+    "transition-colors",
+    "hover:bg-[var(--md-sys-color-surface-container)]",
+    "focus-visible:ring-2",
+    "focus-visible:ring-[var(--md-sys-color-primary)]",
+    "disabled:pointer-events-none",
+    "disabled:opacity-50",
+    "data-[state=open]:bg-[var(--md-sys-color-surface-container)]",
+]);
 
-const navigationMenuLinkVariants = cva(
-    [
-        "inline-flex",
-        "items-center",
-        "justify-center",
-        "rounded-md",
-        "px-4",
-        "py-2",
-        "text-sm",
-        "font-medium",
-        "outline-none",
-        "transition-colors",
-        "hover:bg-slate-100",
-        "focus-visible:ring-2",
-        "focus-visible:ring-slate-500",
-        "data-[active=true]:bg-slate-100",
-    ],
-);
+const navigationMenuLinkVariants = cva([
+    "inline-flex",
+    "items-center",
+    "justify-center",
+    "rounded-md",
+    "px-4",
+    "py-2",
+    "text-sm",
+    "font-medium",
+    "text-[var(--md-sys-color-on-surface)]",
+    "outline-none",
+    "transition-colors",
+    "hover:bg-[var(--md-sys-color-surface-container)]",
+    "focus-visible:ring-2",
+    "focus-visible:ring-[var(--md-sys-color-primary)]",
+    "data-[active=true]:bg-[var(--md-sys-color-secondary-container)]",
+    "data-[active=true]:text-[var(--md-sys-color-on-secondary-container)]",
+]);
 
 type NavigationMenuProps =
     React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root> &
@@ -162,7 +162,9 @@ const NavigationMenuContent = React.forwardRef<
             "md:w-auto",
             "rounded-md",
             "border",
-            "bg-white",
+            "border-[var(--md-sys-color-outline-variant)]",
+            "bg-[var(--md-sys-color-surface-container)]",
+            "text-[var(--md-sys-color-on-surface)]",
             "p-4",
             "shadow-md",
             "outline-none",
@@ -212,7 +214,7 @@ const NavigationMenuIndicator = React.forwardRef<
         ].join(" ")}
         {...props}
     >
-        <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-slate-200 shadow-md" />
+        <div className="relative top-[60%] h-2 w-2 rotate-45 rounded-tl-sm bg-[var(--md-sys-color-secondary-container)] shadow-md" />
     </NavigationMenuPrimitive.Indicator>
 ));
 
@@ -234,7 +236,9 @@ const NavigationMenuViewport = React.forwardRef<
             "overflow-hidden",
             "rounded-md",
             "border",
-            "bg-white",
+            "border-[var(--md-sys-color-outline-variant)]",
+            "bg-[var(--md-sys-color-surface)]",
+            "text-[var(--md-sys-color-on-surface)]",
             "shadow-md",
             "md:w-[var(--radix-navigation-menu-viewport-width)]",
             "data-[state=open]:animate-in",

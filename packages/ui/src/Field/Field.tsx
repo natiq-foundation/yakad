@@ -1,3 +1,4 @@
+
 import React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
@@ -21,7 +22,7 @@ const fieldVariants = cva(
 );
 
 const fieldLegendVariants = cva(
-    "font-medium text-foreground",
+    "font-medium text-[var(--md-sys-color-on-surface)]",
     {
         variants: {
             variant: {
@@ -142,7 +143,7 @@ const FieldDescription = React.forwardRef<
         ref
     ) => {
         const fieldDescriptionClassName = [
-            "text-sm text-muted-foreground",
+            "text-sm text-[var(--md-sys-color-on-surface-variant)]",
             className,
         ]
             .filter(Boolean)
@@ -187,7 +188,7 @@ const FieldError = React.forwardRef<
         }
 
         const fieldErrorClassName = [
-            "text-sm font-medium text-destructive",
+            "text-sm font-medium text-[var(--md-sys-color-error)]",
             className,
         ]
             .filter(Boolean)
@@ -328,7 +329,7 @@ const FieldTitle = React.forwardRef<
         ref
     ) => {
         const fieldTitleClassName = [
-            "text-sm font-medium text-foreground",
+            "text-sm font-medium text-[var(--md-sys-color-on-surface)]",
             className,
         ]
             .filter(Boolean)
@@ -379,7 +380,7 @@ const FieldSeparator = React.forwardRef<
                 />
 
                 {children ? (
-                    <span className="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
+                    <span className="relative mx-auto bg-[var(--md-sys-color-surface)] px-2 text-xs text-[var(--md-sys-color-on-surface-variant)]">
                         {children}
                     </span>
                 ) : null}

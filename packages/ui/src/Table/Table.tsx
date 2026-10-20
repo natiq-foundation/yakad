@@ -1,8 +1,9 @@
+
 import * as React from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const tableVariants = cva(
-    "w-full caption-bottom text-sm",
+    "w-full caption-bottom text-sm text-[var(--md-sys-color-on-surface)]",
     {
         variants: {
             size: {
@@ -26,6 +27,7 @@ const Table = React.forwardRef<HTMLTableElement, TableProps>(
         <div className="relative w-full overflow-auto">
             <table
                 ref={ref}
+                data-slot="table"
                 className={tableVariants({
                     size,
                     className,
@@ -44,6 +46,7 @@ const TableHeader = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <thead
         ref={ref}
+        data-slot="table-header"
         className={[
             "[&_tr]:border-b",
             className ?? "",
@@ -60,6 +63,7 @@ const TableBody = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <tbody
         ref={ref}
+        data-slot="table-body"
         className={[
             "[&_tr:last-child]:border-0",
             className ?? "",
@@ -76,8 +80,10 @@ const TableFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <tfoot
         ref={ref}
+        data-slot="table-footer"
         className={[
-            "border-t",
+            "border-t border-[var(--md-sys-color-outline-variant)]",
+            "bg-[var(--md-sys-color-surface-container-low)]",
             "font-medium",
             className ?? "",
         ].join(" ")}
@@ -93,11 +99,13 @@ const TableRow = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <tr
         ref={ref}
+        data-slot="table-row"
         className={[
-            "border-b",
+            "border-b border-[var(--md-sys-color-outline-variant)]",
             "transition-colors",
-            "hover:bg-slate-50",
-            "data-[state=selected]:bg-slate-100",
+            "hover:bg-[var(--md-sys-color-surface-container-low)]",
+            "data-[state=selected]:bg-[var(--md-sys-color-secondary-container)]",
+            "data-[state=selected]:text-[var(--md-sys-color-on-secondary-container)]",
             className ?? "",
         ].join(" ")}
         {...props}
@@ -112,11 +120,12 @@ const TableHead = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <th
         ref={ref}
+        data-slot="table-head"
         className={[
             "text-left",
             "align-middle",
             "font-medium",
-            "text-slate-600",
+            "text-[var(--md-sys-color-on-surface-variant)]",
             "[&:has([role=checkbox])]:pr-0",
             className ?? "",
         ].join(" ")}
@@ -132,6 +141,7 @@ const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <td
         ref={ref}
+        data-slot="table-cell"
         className={[
             "align-middle",
             "[&:has([role=checkbox])]:pr-0",
@@ -149,10 +159,11 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, ref) => (
     <caption
         ref={ref}
+        data-slot="table-caption"
         className={[
             "mt-4",
             "text-sm",
-            "text-slate-500",
+            "text-[var(--md-sys-color-on-surface-variant)]",
             className ?? "",
         ].join(" ")}
         {...props}
