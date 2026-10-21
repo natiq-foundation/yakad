@@ -11,6 +11,7 @@ export * from "./Stack/Stack";
 export * from "./GridContainer/GridContainer";
 export * from "./GridItem/GridItem";
 export * from "./Card/Card"; // Stack Based
+export * from "./Theme";
 // Theme & Styling
 export * from "./Separator/Separator";
 export * from "./Hr/Hr";

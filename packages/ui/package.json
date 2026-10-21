@@ -1,6 +1,6 @@
 {
     "name": "@yakad/ui",
-    "version": "2.0.3",
+    "version": "2.0.5",
     "private": false,
     "author": "Natiq",
     "description": "UI components for NextJS/React",

@@ -1,22 +1,27 @@
+
 import React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
 
 const buttonVariants = cva(
-    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--md-sys-color-secondary)] disabled:pointer-events-none disabled:opacity-50",
     {
         variants: {
             variant: {
                 filled:
-                    "bg-primary text-primary-foreground hover:bg-primary/90",
+                    "bg-[var(--md-sys-color-primary)] text-[var(--md-sys-color-on-primary)] hover:opacity-90",
+
                 tonal:
-                    "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                    "bg-[var(--md-sys-color-secondary-container)] text-[var(--md-sys-color-on-secondary-container)] hover:opacity-90",
+
                 outlined:
-                    "border border-outline bg-transparent text-foreground hover:bg-muted",
+                    "border border-[var(--md-sys-color-outline)] bg-transparent text-[var(--md-sys-color-primary)] hover:bg-[var(--md-sys-color-surface-container)]",
+
                 elevated:
-                    "bg-surface text-foreground shadow-sm hover:bg-muted",
+                    "bg-[var(--md-sys-color-surface-container-low)] text-[var(--md-sys-color-on-surface)] shadow-sm hover:bg-[var(--md-sys-color-surface-container)]",
+
                 text:
-                    "bg-transparent text-primary hover:bg-primary/10",
+                    "bg-transparent text-[var(--md-sys-color-primary)] hover:bg-[var(--md-sys-color-primary)]/10",
             },
         },
         defaultVariants: {
