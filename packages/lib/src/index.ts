@@ -4,4 +4,4 @@ export * from "./string";
 export * from "./countryCode/country";
 export * from "./langCode";
 
-export * from "./createCookiesContext"
+export * from "./createLocalStorageContext"
