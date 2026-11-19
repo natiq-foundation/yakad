@@ -1,80 +1,147 @@
-import { normalizeForSearch } from "./string";
 
+// Recursively search strings, numbers, arrays, and objects
 const normalizeAndCheck = (
-    value: string | number,
-    searchValue: string
+    value: unknown,
+    normalizedSearchValue: string,
+    searchWords: string[],
+    ignoredKeys: ReadonlySet<string>,
+    visited: WeakSet<object>
 ): boolean => {
-    return normalizeForSearch(String(value)).includes(searchValue);
-};
 
-const filterArrayBySearch = <T>(
-    data: T[],
-    searchValue: string | number,
-    searchKeys?: string[]
-): T[] => {
-    const normalizedSearchValue =
-        typeof searchValue === "string"
-            ? normalizeForSearch(searchValue)
-            : normalizeForSearch(String(searchValue));
+    // Check string values
+    if (typeof value === "string") {
+        return isSmartTextMatch(
+            value,
+            normalizedSearchValue,
+            searchWords
+        );
+    }
 
-    return data.filter((item) => {
-        if (
-            typeof item === "string" &&
-            normalizeAndCheck(item, normalizedSearchValue)
-        )
-            return true;
-
-        if (
-            typeof item === "number" &&
-            normalizeAndCheck(item, normalizedSearchValue)
-        )
-            return true;
-
-        // If the item is an array, recursively search its elements
-        if (
-            Array.isArray(item) &&
-            filterArrayBySearch(item, searchValue, searchKeys).length > 0
-        )
-            return true;
-
-        // If the item is an object (not null), recursively search its values
-        if (typeof item === "object" && item != null) {
-            for (const key in item) {
-                // Skip the keys that are not accepted if searchKeys is defined
-                if (searchKeys && !searchKeys.includes(key)) {
-                    continue;
-                }
-
-                const value = item[key];
-
-                // If the value is an array, search the array elements
-                if (
-                    Array.isArray(value) &&
-                    filterArrayBySearch(value, searchValue, searchKeys).length >
-                        0
-                )
-                    return true; // Found a match in the nested array
-
-                // If the value is a string or number, normalize and check if it contains the search value
-                if (
-                    (typeof value === "string" || typeof value === "number") &&
-                    normalizeAndCheck(value, normalizedSearchValue)
-                )
-                    return true; // Found a match in the string or number property
-
-                // If the value is an object, search it recursively
-                if (typeof value === "object" && value != null) {
-                    if (
-                        filterArrayBySearch([value], searchValue, searchKeys)
-                            .length > 0
-                    )
-                        return true; // Found a match in the nested object
-                }
-            }
+    // Check numeric values with exact matching
+    if (typeof value === "number") {
+        if (!Number.isFinite(value)) {
+            return false;
         }
 
-        return false; // No match found
-    });
+        return normalizeForSearch(String(value)) === normalizedSearchValue;
+    }
+
+    // Handle null and undefined values
+    if (value === null || value === undefined) {
+        return false;
+    }
+
+    // Ignore non-object values
+    if (typeof value !== "object") {
+        return false;
+    }
+
+    // Prevent circular references
+    if (visited.has(value)) {
+        return false;
+    }
+
+    visited.add(value);
+
+    try {
+        // Search inside arrays
+        if (Array.isArray(value)) {
+            return value.some((item) =>
+                normalizeAndCheck(
+                    item,
+                    normalizedSearchValue,
+                    searchWords,
+                    ignoredKeys,
+                    visited
+                )
+            );
+        }
+
+        // Search inside object properties
+        return Object.entries(value as Record<string, unknown>).some(
+            ([key, item]) => {
+
+                // Skip ignored object properties
+                if (ignoredKeys.has(key)) {
+                    return false;
+                }
+
+                return normalizeAndCheck(
+                    item,
+                    normalizedSearchValue,
+                    searchWords,
+                    ignoredKeys,
+                    visited
+                );
+            }
+        );
+
+    } finally {
+        // Allow shared objects to be checked in other branches
+        visited.delete(value);
+    }
 };
 
-export { filterArrayBySearch };
+// Filter an array using smart search
+const filterArrayBySearch = <T,>(
+    data: T[],
+    searchValue: string | number,
+    ignoredKeys: string[] = []
+): T[] => {
+    try {
+        // Validate the input data
+        if (!Array.isArray(data)) {
+            console.error("Search Error: Data must be an array.");
+            return [];
+        }
+
+        // Normalize the search value
+        const normalizedSearchValue = normalizeForSearch(
+            String(searchValue).trim()
+        );
+
+        // Return all items when the search value is empty
+        if (!normalizedSearchValue) {
+            return data;
+        }
+
+        // Extract searchable words
+        const searchWords =
+            normalizedSearchValue.match(/[\p{L}\p{N}]+/gu) ?? [];
+
+        // Return no results when the input contains no searchable characters
+        if (searchWords.length === 0) {
+            return [];
+        }
+
+        // Convert ignored keys into a Set
+        const ignoredKeysSet = new Set(ignoredKeys);
+
+        // Filter items while handling individual item errors
+        return data.filter((item) => {
+            try {
+                const visited = new WeakSet<object>();
+
+                return normalizeAndCheck(
+                    item,
+                    normalizedSearchValue,
+                    searchWords,
+                    ignoredKeysSet,
+                    visited
+                );
+            } catch (error) {
+                handleSearchError(error);
+                return false;
+            }
+        });
+
+    } catch (error) {
+        handleSearchError(error);
+        return [];
+    }
+};
+
+export {
+    normalizeAndCheck,
+    filterArrayBySearch
+}
